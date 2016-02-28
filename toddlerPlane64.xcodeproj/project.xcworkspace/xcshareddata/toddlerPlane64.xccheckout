@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>E8DD9EEF-3D38-4879-9549-B7C645F6440F</string>
+	<key>IDESourceControlProjectName</key>
+	<string>toddlerPlane64</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>B474CD4BA017A908C46095B2EC6C94C902925540</key>
+		<string>github.com:Turbo240Z/toddlerPlane64.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>toddlerPlane64.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>B474CD4BA017A908C46095B2EC6C94C902925540</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:Turbo240Z/toddlerPlane64.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>B474CD4BA017A908C46095B2EC6C94C902925540</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B474CD4BA017A908C46095B2EC6C94C902925540</string>
+			<key>IDESourceControlWCCName</key>
+			<string>toddlerPlane64</string>
+		</dict>
+	</array>
+</dict>
+</plist>
