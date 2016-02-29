@@ -2,10 +2,16 @@
 ;.byte $0C,$08,$0A,$00,$9E,' ','2','0','6','4',$00,$00,$00,$00,$00
 
 ; -- Memory layout -- 
-; $0400 - $07e8 screen memory
-; $0801 - $082a main program
+; $0400 - $07e8 screen memory     ; $D018 #%0001xxxx
+; $0801 - $0a93 main program
 ; $2000 - $2100 sprite memory
-; $3000 - $3800 Custom Character RAM
+; $3000 - $3800 Custom Char RAM   ; $D018 #%00001100
+; $3800 - $3BFF 2nd screen memory ; $D018 #%1110xxxx
+; $8000 - $8f36 SID
+; $9000 - $CFFF 16K FREE
+; $D000 - $DFFF VIC/SID/CIA/IO registers/Color RAM
+; $E000 - $FFFF 8K FREE
+
 
 lda #COLOR_L_BLUE
 sta SCREEN_BG_COLOR
@@ -15,9 +21,27 @@ jsr setScreenMode
 jsr ClearScreen
 jsr initDustySprite
 jsr initIRQs
-jsr doBackground
+lda #10
+pha ; col
+lda #15
+pha ; row
+jsr drawCloud1
+lda #0
+pha
+lda #1
+pha
+jsr drawCloud1
+jsr drawCloud2
+
 mainLoop
     jmp mainLoop
+
+setScreenBuff
+    lda $D018
+    and #%00001111
+    ora screenBufMask
+    sta $D018
+    rts
 
 
 ; Dusty sprite data starts at $2000
@@ -41,12 +65,16 @@ initDustySprite
 
     ldx #128
     stx $07f9 ; sprite 1 red single color
+    stx $3BF9
     inx ; 129
     stx $07f8 ; sprite 2 black multi color
+    stx $3BF8
     inx ; 130
     stx $07fb ; sprite 3 red single color
+    stx $3BFB
     inx ; 131
     stx $07fa ; sprite 4 black multi color
+    stx $3BFA
 
     lda #100
     sta SPRITE1_X_POS
@@ -64,24 +92,30 @@ dusty_y_pos .byte 100
 
 setScreenMode
     lda $D018
-    and #%11110001
-    ora #%00001100 ; Set to $3000
+    and #%00000001
+    ora #%00001100 ; Set character set to $3000
+    ora screenBufMask
     sta $D018
     rts
+screenBufMask   .byte SCREEN_BUF1_MASK
 
 clearScreen ; void ()
     ldx #$00
 clearing
     lda #32
-    STA SCREENMEM, X
-    STA SCREENMEM + $100, x
-    STA SCREENMEM + $200, x
-    STA SCREENMEM + $300, x
+    sta SCREENMEM, X
+    sta SCREENMEM + $100, x
+    sta SCREENMEM + $200, x
+    sta SCREENMEM + $300, x
+    sta SCREENMEM2, X
+    sta SCREENMEM2 + $100, x
+    sta SCREENMEM2 + $200, x
+    sta SCREENMEM2 + $300, x
     lda #COLOR_WHITE
-    STA COLORMEM, X
-    STA COLORMEM + $100, x
-    STA COLORMEM + $200, x
-    STA COLORMEM + $300, x
+    sta COLORMEM, X
+    sta COLORMEM + $100, x
+    sta COLORMEM + $200, x
+    sta COLORMEM + $300, x
     inx
     bne clearing
     rts

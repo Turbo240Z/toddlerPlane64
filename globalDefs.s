@@ -1,5 +1,6 @@
 
 SCREENMEM       .equ $0400 ; Start of character screen map, color map is + $D400
+SCREENMEM2      .equ $3800
 COLORMEM        .equ $D800
 VMEM            .equ $D000
 SCREEN_BORDER   .equ VMEM + 32
@@ -20,6 +21,9 @@ COLOR_GREY      .equ $0c
 COLOR_L_GREEN   .equ $0d
 COLOR_L_BLUE    .equ $0e
 COLOR_L_GREY    .equ $0f
+
+zpPtr1          .equ $ba
+zpPtr2          .equ $bc
 
 SPRITE1_COLOR   .equ VMEM + 39
 SPRITE2_COLOR   .equ VMEM + 40
@@ -54,3 +58,8 @@ SPRITES_SHARED_COLOR2   .equ VMEM + 38
 
 SCROLL_SCREEN_FRAMES    .equ 10
 
+SCREEN_BUF1_MASK        .equ %00010000
+SCREEN_BUF2_MASK        .equ %11100000
+
+LVL_RAM                 .equ $9000
+CLEAR_LVL_CHAR          .equ 32

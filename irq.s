@@ -39,19 +39,22 @@ irq_refreshCounter ; void (y, x, a)
     pha        ;store register Y in stack
     ;inc SCREEN_BORDER
     lda propBit
+    and #%00000001
     beq setPropOff
-    lda #0
-    sta propBit
+    lda #SCREEN_BUF1_MASK
+    sta screenBufMask
     lda #131 ; Prop on
     jmp setProp
 setPropOff
-    inc propBit
+    lda #SCREEN_BUF2_MASK
+    sta screenBufMask
     lda #132 ; Prop off
 setProp
     sta $07fa
+    inc propBit
     ;jsr scrollIRQ
     jsr updateJoyPos
-
+    jsr setScreenBuff
     asl $d019
     pla
     tay
