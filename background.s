@@ -68,7 +68,7 @@ drawCloud1 ; void ret2, ret1, char y, char x
     ldy dc_rety
     rts
 ret1        .byte 0, 0
-cloud1col   .byte 0
+cloud1col   .byte 0    ; cloud1col/40 * 1000 + remainder
 cloud1row   .byte 0
 dc_retx     .byte 0
 dc_rety     .byte 0
@@ -94,8 +94,56 @@ drawCloud2
 
 
 doBackgroundRand
-
+    ldx #0
+dbr_loop
+    txa
+    pha
+;    jsr get_random_number ; get number under 25 by dividing by 2, 4 times gives us 0-15 number
+;    lsr
+;    lsr
+;    lsr
+;    lsr
+    lda #0
+    pha
+    jsr drawCloud1
+    txa
+    clc
+    adc #8
+    tax
+    cpx #40 ; Level column limit number?
+    bcc dbr_loop; we're still less than the compare
     rts
+
+copyLevelDataToScreen1
+    ldx #0
+cpldts_loop
+    lda LVL_RAM, x
+    sta SCREENMEM, x
+    lda LVL_RAM   + $100, x
+    sta SCREENMEM + $100, x
+    lda LVL_RAM   + $200, x
+    sta SCREENMEM + $200, x
+;    lda LVL_RAM   + $300, x
+;    sta SCREENMEM + $300, x
+    inx
+    bne cpldts_loop
+    rts
+
+copyLevelDataToScreen2
+    ldx #0
+cpldts2_loop
+    lda LVL_RAM, x
+    sta SCREENMEM2, x
+    lda LVL_RAM   + $100, x
+    sta SCREENMEM2 + $100, x
+    lda LVL_RAM   + $200, x
+    sta SCREENMEM2 + $200, x
+;    lda LVL_RAM   + $300, x
+;    sta SCREENMEM + $300, x
+    inx
+    bne cpldts2_loop
+    rts
+
 
 eightBitMul ; tmp1, tmp3 = (return_2, return_1, num1, num2) ; alter tmp1, tmp2, tmp4
     stx retx ; stash a copy of reg x

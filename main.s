@@ -15,23 +15,14 @@
 
 lda #COLOR_L_BLUE
 sta SCREEN_BG_COLOR
-lda #COLOR_MAGENTA
 sta SCREEN_BORDER
 jsr setScreenMode
-jsr ClearScreen
+jsr ClearScreen ; set screen to white
 jsr initDustySprite
 jsr initIRQs
-lda #10
-pha ; col
-lda #15
-pha ; row
-jsr drawCloud1
-lda #0
-pha
-lda #1
-pha
-jsr drawCloud1
-jsr drawCloud2
+;jsr doBackgroundRand
+;jsr copyLevelDataToScreen1
+;jsr copyLevelDataToScreen2
 
 mainLoop
     jmp mainLoop
@@ -100,17 +91,17 @@ setScreenMode
 screenBufMask   .byte SCREEN_BUF1_MASK
 
 clearScreen ; void ()
-    ldx #$00
+    ldx #0
 clearing
-    lda #32
-    sta SCREENMEM, X
-    sta SCREENMEM + $100, x
-    sta SCREENMEM + $200, x
-    sta SCREENMEM + $300, x
-    sta SCREENMEM2, X
-    sta SCREENMEM2 + $100, x
-    sta SCREENMEM2 + $200, x
-    sta SCREENMEM2 + $300, x
+;    lda #32
+;    sta SCREENMEM, X
+;    sta SCREENMEM + $100, x
+;    sta SCREENMEM + $200, x
+;    sta SCREENMEM + $300, x
+;    sta SCREENMEM2, X
+;    sta SCREENMEM2 + $100, x
+;    sta SCREENMEM2 + $200, x
+;    sta SCREENMEM2 + $300, x
     lda #COLOR_WHITE
     sta COLORMEM, X
     sta COLORMEM + $100, x

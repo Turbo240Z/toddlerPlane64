@@ -37,7 +37,7 @@ irq_refreshCounter ; void (y, x, a)
     pha        ;store register X in stack
     tya
     pha        ;store register Y in stack
-    ;inc SCREEN_BORDER
+;    inc SCREEN_BORDER
     lda propBit
     and #%00000001
     beq setPropOff
@@ -52,9 +52,14 @@ setPropOff
 setProp
     sta $07fa
     inc propBit
-    ;jsr scrollIRQ
+    jsr scrollIRQ
     jsr updateJoyPos
-    jsr setScreenBuff
+    ;jsr setScreenBuff
+    inc d_repeatTime
+    inc u_repeatTime
+    inc l_repeatTime
+    inc r_repeatTime
+;    dec SCREEN_BORDER
     asl $d019
     pla
     tay

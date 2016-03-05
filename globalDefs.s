@@ -24,6 +24,8 @@ COLOR_L_GREY    .equ $0f
 
 zpPtr1          .equ $ba
 zpPtr2          .equ $bc
+zpPtr3          .equ $be
+zpPtr4          .equ $c0
 
 SPRITE1_COLOR   .equ VMEM + 39
 SPRITE2_COLOR   .equ VMEM + 40
@@ -56,10 +58,10 @@ SPRITES_MULTI_COLOR     .equ VMEM + 28
 SPRITES_SHARED_COLOR1   .equ VMEM + 37
 SPRITES_SHARED_COLOR2   .equ VMEM + 38
 
-SCROLL_SCREEN_FRAMES    .equ 10
+SCROLL_SCREEN_FRAMES    .equ 1
 
-SCREEN_BUF1_MASK        .equ %00010000
-SCREEN_BUF2_MASK        .equ %11100000
+SCREEN_BUF1_MASK        .equ %00010000 ; $0400
+SCREEN_BUF2_MASK        .equ %11100000 ; $3800
 
 LVL_RAM                 .equ $9000
 CLEAR_LVL_CHAR          .equ 32

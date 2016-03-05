@@ -1,46 +1,72 @@
+; Assume that game level is 200 columns total
 scrollScreen
-    ldx #0
+    inc lvlColPos
+    ldx lvlColPos
+    ldy #0
 ss_loop
-    lda SCREENMEM+1, x
-    sta SCREENMEM, x
-
-    lda SCREENMEM+1+40, x
-    sta SCREENMEM+40, x
-
-    lda SCREENMEM+1+80, x
-    sta SCREENMEM+80, x
-
-    lda SCREENMEM+1+120, x
-    sta SCREENMEM+120, x
-
-    lda SCREENMEM+1+160, x
-    sta SCREENMEM+160, x
-
-    lda SCREENMEM+1+200, x
-    sta SCREENMEM+200, x
-
-    lda SCREENMEM+1+240, x
-    sta SCREENMEM+240, x
-
-    lda SCREENMEM+1+280, x
-    sta SCREENMEM+280, x
-
-    lda SCREENMEM+1+320, x
-    sta SCREENMEM+320, x
-
-    lda SCREENMEM+1+360, x
-    sta SCREENMEM+360, x
-
-    lda SCREENMEM+1+400, x
-    sta SCREENMEM+400, x
-
-    lda SCREENMEM+1+440, x
-    sta SCREENMEM+440, x
-
+    lda LVL_RAM+0, x
+    sta SCREENMEM+0, y
+    lda LVL_RAM+200, x
+    sta SCREENMEM+40, y
+    lda LVL_RAM+400, x
+    sta SCREENMEM+80, y
+    lda LVL_RAM+600, x
+    sta SCREENMEM+120, y
+    lda LVL_RAM+800, x
+    sta SCREENMEM+160, y
+    lda LVL_RAM+1000, x
+    sta SCREENMEM+200, y
+    lda LVL_RAM+1200, x
+    sta SCREENMEM+240, y
+    lda LVL_RAM+1400, x
+    sta SCREENMEM+280, y
+    lda LVL_RAM+1600, x
+    sta SCREENMEM+320, y
+    lda LVL_RAM+1800, x
+    sta SCREENMEM+360, y
+    lda LVL_RAM+2000, x
+    sta SCREENMEM+400, y
+    lda LVL_RAM+2200, x
+    sta SCREENMEM+440, y
+    lda LVL_RAM+2400, x
+    sta SCREENMEM+480, y
+    lda LVL_RAM+2600, x
+    sta SCREENMEM+520, y
+    lda LVL_RAM+2800, x
+    sta SCREENMEM+560, y
+    lda LVL_RAM+3000, x
+    sta SCREENMEM+600, y
+    lda LVL_RAM+3200, x
+    sta SCREENMEM+640, y
+    lda LVL_RAM+3400, x
+    sta SCREENMEM+680, y
+    lda LVL_RAM+3600, x
+    sta SCREENMEM+720, y
+    lda LVL_RAM+3800, x
+    sta SCREENMEM+760, y
+    lda LVL_RAM+4000, x
+    sta SCREENMEM+800, y
+    lda LVL_RAM+4200, x
+    sta SCREENMEM+840, y
+    lda LVL_RAM+4400, x
+    sta SCREENMEM+880, y
+    lda LVL_RAM+4600, x
+    sta SCREENMEM+920, y
+    lda LVL_RAM+4800, x
+    sta SCREENMEM+960, y
+    cmp #9 ; end char
+    bne ss_continueNormally
+    lda #0
+    sta lvlColPos
+ss_continueNormally
     inx
-    cpx #40
-    bne ss_loop
+    iny
+    cpy #40
+    beq ss_finished
+    jmp ss_loop
+ss_finished
     rts
+lvlColPos   .byte 0
 
 scrollIRQ
     inc screenCount

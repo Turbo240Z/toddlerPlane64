@@ -1,6 +1,6 @@
 JOY1                    .equ 56320 ; Joystick flag byte
 JOY2                    .equ 56320
-MOVE_REPEAT_TIME        .equ 1
+MOVE_REPEAT_TIME        .equ 0
 JOY_BIT_UP              .equ 1
 JOY_BIT_DOWN            .equ 2
 JOY_BIT_LEFT            .equ 4
@@ -8,7 +8,7 @@ JOY_BIT_RIGHT           .equ 8
 JOY_BIT_FIRE            .equ 16
 
 LIMIT_Y_TOP             .equ 50
-LIMIT_Y_BOTTOM          .equ 250 - 21
+LIMIT_Y_BOTTOM          .equ 250 - 24
 LIMIT_X_LEFT            .equ 23
 LIMIT_X_RIGHT           .equ 200
 
@@ -58,13 +58,14 @@ mdl_finished
 
 updateJoyPos
     ldx JOY2 ; cache JOY1 value in x
+    ldy #0   ; for zeroing out
 nextJoy1
     txa ; Cache joystick input values
     and #JOY_BIT_DOWN
     bne nextJoy2
     lda d_repeatTime
     cmp #MOVE_REPEAT_TIME
-    bcc nextJoy2
+    bcc nextJoy2 ; Less than repeat time, do not move down yet
     sty d_repeatTime
     jsr moveDustyDown
 nextJoy2 ; Left

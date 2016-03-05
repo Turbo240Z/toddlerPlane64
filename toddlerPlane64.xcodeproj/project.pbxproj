@@ -15,7 +15,7 @@
 		EA4FD2F81AD794B3005A11EB /* main.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = main.s; sourceTree = "<group>"; };
 		EA4FD2F91AD794E6005A11EB /* globalDefs.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = globalDefs.s; sourceTree = "<group>"; };
 		EA4FD2FA1AD794FD005A11EB /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		EAA325051C82FA340064F3F8 /* populateClouds.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = populateClouds.s; sourceTree = "<group>"; };
+		EA7600251C8A599900966595 /* genScreenMems.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; name = genScreenMems.php; path = tools/genScreenMems.php; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -29,9 +29,17 @@
 				EA40BFBB1C7CFB7D00E8B066 /* moveDusty.s */,
 				EA40BFBC1C7D795500E8B066 /* scrollScreen.s */,
 				EA40BFBD1C7D7C2900E8B066 /* background.s */,
-				EAA325051C82FA340064F3F8 /* populateClouds.s */,
+				EA7600241C8A598500966595 /* tools */,
 				EA40BFB91C7BEC7F00E8B066 /* assets */,
 			);
+			sourceTree = "<group>";
+		};
+		EA7600241C8A598500966595 /* tools */ = {
+			isa = PBXGroup;
+			children = (
+				EA7600251C8A599900966595 /* genScreenMems.php */,
+			);
+			name = tools;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
