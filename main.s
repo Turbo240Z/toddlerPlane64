@@ -20,9 +20,12 @@ jsr setScreenMode
 jsr ClearScreen ; set screen to white
 jsr initDustySprite
 jsr initIRQs
-;jsr doBackgroundRand
 ;jsr copyLevelDataToScreen1
 ;jsr copyLevelDataToScreen2
+
+; For testing
+lda #$09
+sta $0400
 
 mainLoop
     jmp mainLoop

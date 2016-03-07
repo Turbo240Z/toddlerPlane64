@@ -18,7 +18,8 @@ initIRQs
     ; Set video mode
     lda #%00011011 ; screen on, 25 rows : this is default
     sta $d011
-    lda #%00001000 ; 40 columns, single color mode
+    lda #%00001000 ; 40 columns, single color mode, alighed to the right
+    lda #%11110111 ; 38 columns, single color mode, aligned right
     sta $d016
 
     lda #RASTER_TO_COUNT_AT     ; line to trigger interrupt
@@ -67,6 +68,5 @@ setProp
     tax
     pla
     rti          ; return from interrupt
-propBit .byte 0
-
+propBit     .byte 0
 
