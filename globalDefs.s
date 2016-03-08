@@ -57,11 +57,19 @@ SPRITES_ENABLED         .equ VMEM + 21
 SPRITES_MULTI_COLOR     .equ VMEM + 28
 SPRITES_SHARED_COLOR1   .equ VMEM + 37
 SPRITES_SHARED_COLOR2   .equ VMEM + 38
+SPRITE_Z_PRIORITY_Y     .equ 170 ; Less than 170 set to behind, greater than over the top
 
-SCROLL_SCREEN_FRAMES    .equ 8
-LVL_CPY_PT1_FRAME       .equ 0
+SCROLL_SCREEN_FRAMES    .equ 30
+LVL_CPY_PT1_FRAME       .equ 1
 LVL_CPY_PT2_FRAME       .equ 2
 ; $D016 %1111 1000 ; 0 - 7 values where 7 = LEFT? 0 is default
+H_SCROLL_1_FRAME        .equ 1
+H_SCROLL_2_FRAME        .equ 5
+H_SCROLL_3_FRAME        .equ 9
+H_SCROLL_4_FRAME        .equ 13
+H_SCROLL_5_FRAME        .equ 17
+H_SCROLL_6_FRAME        .equ 21
+H_SCROLL_7_FRAME        .equ 26
 
 SCREEN_BUF1_MASK        .equ %00010000 ; $0400
 SCREEN_BUF2_MASK        .equ %11100000 ; $3800

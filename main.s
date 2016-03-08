@@ -3,7 +3,7 @@
 
 ; -- Memory layout -- 
 ; $0400 - $07e8 screen memory     ; $D018 #%0001xxxx
-; $0801 - $0a93 main program
+; $0801 - $0bc3 main program
 ; $2000 - $2100 sprite memory
 ; $3000 - $3800 Custom Char RAM   ; $D018 #%00001100
 ; $3800 - $3BFF 2nd screen memory ; $D018 #%1110xxxx
@@ -15,6 +15,7 @@
 
 lda #COLOR_L_BLUE
 sta SCREEN_BG_COLOR
+;lda #COLOR_BLACK
 sta SCREEN_BORDER
 jsr setScreenMode
 jsr ClearScreen ; set screen to white
@@ -80,6 +81,9 @@ initDustySprite
     lda #100+24
     sta SPRITE3_X_POS
     sta SPRITE4_X_POS
+    ; For fun draw dusty behind clouds?
+    lda #%00001111
+    sta $D01B
     rts
 dusty_x_pos .byte 100
 dusty_y_pos .byte 100

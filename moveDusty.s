@@ -21,6 +21,17 @@ moveDustyUp
     dec SPRITE3_Y_POS
     dec SPRITE4_Y_POS
 mdu_finished
+    lda SPRITE1_Y_POS
+    cmp #SPRITE_Z_PRIORITY_Y
+    bcs mdd_setZAboveUp
+    lda $D01B
+    ora #%00001111
+    sta $D01B
+    rts
+mdd_setZAboveUp
+    lda #%11110000
+    and $D01B
+    sta $D01B
     rts
 
 moveDustyDown
@@ -32,6 +43,17 @@ moveDustyDown
     inc SPRITE3_Y_POS
     inc SPRITE4_Y_POS
 mdd_finished
+    lda SPRITE1_Y_POS
+    cmp #SPRITE_Z_PRIORITY_Y
+    bcs mdd_setZAbove
+    lda $D01B
+    ora #%00001111
+    sta $D01B
+    rts
+mdd_setZAbove
+    lda #%11110000
+    and $D01B
+    sta $D01B
     rts
 
 moveDustyRight

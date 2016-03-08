@@ -42,13 +42,9 @@ irq_refreshCounter ; void (y, x, a)
     lda propBit
     and #%00000001
     beq setPropOff
-    lda #SCREEN_BUF1_MASK
-    sta screenBufMask
     lda #131 ; Prop on
     jmp setProp
 setPropOff
-    lda #SCREEN_BUF2_MASK
-    sta screenBufMask
     lda #132 ; Prop off
 setProp
     sta $07fa
