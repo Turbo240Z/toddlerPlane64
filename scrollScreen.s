@@ -1,8 +1,12 @@
 ; Assume that game level is 200 columns total
 scrollScreen
+    ldy #0
     inc lvlColPos
     ldx lvlColPos
-    ldy #0
+    cpx #LVL_COLUMNS+1
+    bne ss1_loop
+    ldx #0
+    stx lvlColPos
 ss1_loop
     lda LVL_RAM+0, x
     sta SCREENMEM+0, y
@@ -30,14 +34,9 @@ ss1_loop
     sta SCREENMEM+440, y
     lda LVL_RAM+2400, x
     sta SCREENMEM+480, y
-    cmp #9 ; end char
-    bne ss1_continueNormally
-    lda #0
-    sta lvlColPos
-ss1_continueNormally
     inx
     iny
-    cpy #40
+    cpy #COLS_TO_COPY
     beq ss1_finished
     jmp ss1_loop
 ss1_finished
@@ -74,7 +73,7 @@ ss2_loop
     sta SCREENMEM+960, y
     inx
     iny
-    cpy #40
+    cpy #COLS_TO_COPY
     beq ss2_finished
     jmp ss2_loop
 ss2_finished
@@ -86,6 +85,10 @@ scrollScreenBuff2
     inc lvlColPos
     ldx lvlColPos
     ldy #0
+    cpx #LVL_COLUMNS+1
+    bne ss1b2_loop
+    ldx #0
+    stx lvlColPos
 ss1b2_loop
     lda LVL_RAM+0, x
     sta SCREENMEM2+0, y
@@ -113,14 +116,9 @@ ss1b2_loop
     sta SCREENMEM2+440, y
     lda LVL_RAM+2400, x
     sta SCREENMEM2+480, y
-    cmp #9 ; end char
-    bne ss1b2_continueNormally
-    lda #0
-    sta lvlColPos
-ss1b2_continueNormally
     inx
     iny
-    cpy #40
+    cpy #COLS_TO_COPY
     beq ss1b2_finished
     jmp ss1b2_loop
 ss1b2_finished
@@ -157,7 +155,7 @@ ss2b2_loop
     sta SCREENMEM2+960, y
     inx
     iny
-    cpy #40
+    cpy #COLS_TO_COPY
     beq ss2b2_finished
     jmp ss2b2_loop
 ss2b2_finished
@@ -171,16 +169,16 @@ scrollIRQ
     bne si_notCpyFrame1
     lda screenBuffUsed
     bne si_notScreen1Buff
-    jsr scrollScreen
+    jsr scrollScreen      ; Part one of buff 1
     jmp si_screenScrolled
 si_notScreen1Buff
-    jsr scrollScreenBuff2
+    jsr scrollScreenBuff2 ; Part one of buff 2
 si_screenScrolled
-    lda #%11111000
-    and $d016
-    ora #%00000111
-    sta $d016
-    jsr setScreenBuff
+    lda $D016
+    ora #%00000111 ; Reset scroll
+    sta $D016
+    jsr setScreenBuff     ; Flip the Screen Buff value
+    jsr doColor1
 si_notCpyFrame1
     lda screenCount
     cmp #SCROLL_SCREEN_FRAMES
@@ -194,33 +192,23 @@ noScrollingForNow
     cmp #H_SCROLL_1_FRAME
     bne si_noH1
     dec $d016
-
     lda screenBuffUsed
     bne si_notScreen1Buff2nd
-    jsr scrollScreen2
+    jsr scrollScreen2      ; Part two of buff 1
     jmp si_screenScrolled2nd
 si_notScreen1Buff2nd
-    jsr scrollScreen2Buff2
+    jsr scrollScreen2Buff2 ; Part two of buff 2
 si_screenScrolled2nd
-
-
-
-
-    jsr scrollScreen2
     ; Flip screenBuffUsed Value
     lda screenBuffUsed
-    bne si_resetScreenBuffToScreen1
+    bne si_resetScreenBuffToScreen1 ; Greater than 0
     inc screenBuffUsed
-;    lda #COLOR_GREEN
-;    sta SCREEN_BORDER
-    lda #SCREEN_BUF2_MASK
+    lda #SCREEN_BUF1_MASK
     jmp si_screenBuffSet
 si_resetScreenBuffToScreen1
     lda #0
     sta screenBuffUsed
-;    lda #COLOR_RED
-;    sta SCREEN_BORDER
-    lda #SCREEN_BUF1_MASK
+    lda #SCREEN_BUF2_MASK
 si_screenBuffSet
     sta screenBufMask
 
@@ -255,6 +243,10 @@ si_noH6
     bne si_noH7
     dec $d016
 si_noH7
+    lda screenCount
+    cmp #DO_COLOR_2_FRAME
+    bne si_finished
+    jsr doColor2
 si_finished
     rts
 

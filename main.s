@@ -7,28 +7,24 @@
 ; $2000 - $2100 sprite memory
 ; $3000 - $3800 Custom Char RAM   ; $D018 #%00001100
 ; $3800 - $3BFF 2nd screen memory ; $D018 #%1110xxxx
+; $4400 - +#256 Tile Colors Addr.
 ; $8000 - $8f36 SID
-; $9000 - $CFFF 16K FREE
+; $9000 - $CFFF 16K - Map Address
 ; $D000 - $DFFF VIC/SID/CIA/IO registers/Color RAM
 ; $E000 - $FFFF 8K FREE
 
 
 lda #COLOR_L_BLUE
 sta SCREEN_BG_COLOR
-;lda #COLOR_BLACK
+lda #COLOR_BLACK
 sta SCREEN_BORDER
 jsr setScreenMode
 jsr ClearScreen ; set screen to white
 jsr initDustySprite
 jsr initIRQs
-;jsr copyLevelDataToScreen1
-;jsr copyLevelDataToScreen2
-
-; For testing
-lda #$09
-sta $0400
 
 mainLoop
+    nop
     jmp mainLoop
 
 setScreenBuff
@@ -82,13 +78,24 @@ initDustySprite
     sta SPRITE3_X_POS
     sta SPRITE4_X_POS
     ; For fun draw dusty behind clouds?
-    lda #%00001111
+;    lda #%00001111
+    lda #0
     sta $D01B
     rts
 dusty_x_pos .byte 100
 dusty_y_pos .byte 100
 
 setScreenMode
+    ; enable multi color
+    lda $D016
+    ora #%00010000
+    sta $D016
+    ; Set shared color #1
+    lda #COLOR_L_GREEN
+    sta $D022
+    lda #COLOR_L_BLUE
+    sta $D023
+    ; Set Character pointer
     lda $D018
     and #%00000001
     ora #%00001100 ; Set character set to $3000
@@ -100,15 +107,6 @@ screenBufMask   .byte SCREEN_BUF1_MASK
 clearScreen ; void ()
     ldx #0
 clearing
-;    lda #32
-;    sta SCREENMEM, X
-;    sta SCREENMEM + $100, x
-;    sta SCREENMEM + $200, x
-;    sta SCREENMEM + $300, x
-;    sta SCREENMEM2, X
-;    sta SCREENMEM2 + $100, x
-;    sta SCREENMEM2 + $200, x
-;    sta SCREENMEM2 + $300, x
     lda #COLOR_WHITE
     sta COLORMEM, X
     sta COLORMEM + $100, x

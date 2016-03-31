@@ -1,4 +1,8 @@
-RASTER_TO_COUNT_AT .equ 250
+RASTER_TO_START_FLOOR   .equ 180
+RASTER_FOR_SIDEWALK     .equ 215
+RASTER_BACK_TO_GREEN    .equ 225
+RASTER_TO_COUNT_AT      .equ 251
+
 
 initIRQs
     sei          ; turn off interrupts
@@ -22,15 +26,19 @@ initIRQs
     lda #%11110111 ; 38 columns, single color mode, aligned right
     sta $d016
 
-    lda #RASTER_TO_COUNT_AT     ; line to trigger interrupt
+    lda #RASTER_TO_START_FLOOR   ; line to trigger interrupt
     sta $d012
 
-    lda #<irq_refreshCounter    ; low part of address of interrupt handler code
+    lda #<irq_flooring    ; low part of address of interrupt handler code
     sta $fffe
-    lda #>irq_refreshCounter    ; high part of address of interrupt handler code
+    lda #>irq_flooring    ; high part of address of interrupt handler code
     sta $ffff
     cli          ; turn interrupts back on
     rts
+
+
+
+    
 
 irq_refreshCounter ; void (y, x, a)
     pha        ;store register A in stack
@@ -38,7 +46,8 @@ irq_refreshCounter ; void (y, x, a)
     pha        ;store register X in stack
     tya
     pha        ;store register Y in stack
-;    inc SCREEN_BORDER
+    lda #COLOR_CYAN
+    sta SCREEN_BG_COLOR
     lda propBit
     and #%00000001
     beq setPropOff
@@ -51,12 +60,16 @@ setProp
     inc propBit
     jsr scrollIRQ
     jsr updateJoyPos
-    ;jsr setScreenBuff
     inc d_repeatTime
     inc u_repeatTime
     inc l_repeatTime
     inc r_repeatTime
-;    dec SCREEN_BORDER
+    lda #RASTER_TO_START_FLOOR     ; line to trigger interrupt
+    sta $d012
+    lda #<irq_flooring    ; low part of address of interrupt handler code
+    sta $fffe
+    lda #>irq_flooring    ; high part of address of interrupt handler code
+    sta $ffff
     asl $d019
     pla
     tay
@@ -65,4 +78,83 @@ setProp
     pla
     rti          ; return from interrupt
 propBit     .byte 0
+
+; painting some green flooring
+irq_flooring
+    pha        ;store register A in stack
+    txa
+    pha        ;store register X in stack
+    tya
+    pha        ;store register Y in stack
+    ldx #COLOR_L_GREEN
+if_loop
+    lda $d012
+    cmp #RASTER_TO_START_FLOOR+1
+    bne if_loop
+    stx SCREEN_BG_COLOR
+    lda #RASTER_FOR_SIDEWALK      ; line to trigger interrupt
+    sta $d012
+    lda #<irq_sideWalk ; next
+    sta $fffe
+    lda #>irq_sideWalk ; next
+    sta $ffff
+    asl $d019
+    pla
+    tay
+    pla
+    tax
+    pla
+    rti          ; return from interrupt
+
+irq_sideWalk
+    pha        ;store register A in stack
+    txa
+    pha        ;store register X in stack
+    tya
+    pha        ;store register Y in stack
+    ldx #COLOR_L_GREY
+isw_loop
+    lda $d012
+    cmp #RASTER_FOR_SIDEWALK+1
+    bne isw_loop
+    stx SCREEN_BG_COLOR
+    lda #RASTER_BACK_TO_GREEN      ; line to trigger interrupt
+    sta $d012
+    lda #<irq_backToGreen ; next
+    sta $fffe
+    lda #>irq_backToGreen ; next
+    sta $ffff
+    asl $d019
+    pla
+    tay
+    pla
+    tax
+    pla
+    rti          ; return from interrupt
+
+irq_backToGreen
+    pha        ;store register A in stack
+    txa
+    pha        ;store register X in stack
+    tya
+    pha        ;store register Y in stack
+    ldx #COLOR_L_GREEN
+ibtg_loop
+    lda $d012
+    cmp #RASTER_BACK_TO_GREEN+1
+    bne ibtg_loop
+    stx SCREEN_BG_COLOR
+    lda #RASTER_TO_COUNT_AT      ; line to trigger interrupt
+    sta $d012
+    lda #<irq_refreshCounter ; next
+    sta $fffe
+    lda #>irq_refreshCounter ; next
+    sta $ffff
+    asl $d019
+    pla
+    tay
+    pla
+    tax
+    pla
+    rti          ; return from interrupt
 

@@ -1,6 +1,7 @@
 
 SCREENMEM       .equ $0400 ; Start of character screen map, color map is + $D400
 SCREENMEM2      .equ $3800
+COLOR_MAP       .equ $4400
 COLORMEM        .equ $D800
 VMEM            .equ $D000
 SCREEN_BORDER   .equ VMEM + 32
@@ -59,20 +60,23 @@ SPRITES_SHARED_COLOR1   .equ VMEM + 37
 SPRITES_SHARED_COLOR2   .equ VMEM + 38
 SPRITE_Z_PRIORITY_Y     .equ 170 ; Less than 170 set to behind, greater than over the top
 
-SCROLL_SCREEN_FRAMES    .equ 30
-LVL_CPY_PT1_FRAME       .equ 1
-LVL_CPY_PT2_FRAME       .equ 2
+COLS_TO_COPY            .equ 39
+SCROLL_SCREEN_FRAMES    .equ 20 ; Reset counter
+LVL_CPY_PT1_FRAME       .equ 1 ; We're also flipping the screen here
+LVL_CPY_PT2_FRAME       .equ 10
 ; $D016 %1111 1000 ; 0 - 7 values where 7 = LEFT? 0 is default
-H_SCROLL_1_FRAME        .equ 1
+H_SCROLL_1_FRAME        .equ 3 ; After copying 2nd part swap screen buff to write to.
 H_SCROLL_2_FRAME        .equ 5
-H_SCROLL_3_FRAME        .equ 9
-H_SCROLL_4_FRAME        .equ 13
-H_SCROLL_5_FRAME        .equ 17
-H_SCROLL_6_FRAME        .equ 21
-H_SCROLL_7_FRAME        .equ 26
+H_SCROLL_3_FRAME        .equ 8
+H_SCROLL_4_FRAME        .equ 10
+H_SCROLL_5_FRAME        .equ 13
+H_SCROLL_6_FRAME        .equ 15
+H_SCROLL_7_FRAME        .equ 18
+DO_COLOR_2_FRAME        .equ 2
 
 SCREEN_BUF1_MASK        .equ %00010000 ; $0400
 SCREEN_BUF2_MASK        .equ %11100000 ; $3800
 
 LVL_RAM                 .equ $9000
 CLEAR_LVL_CHAR          .equ 32
+LVL_COLUMNS             .equ 200
