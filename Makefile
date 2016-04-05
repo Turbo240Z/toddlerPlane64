@@ -1,3 +1,4 @@
+.PHONY: setHeader
 all:
 	mkdir -p build
 	cat globalDefs.s main.s irq.s moveDusty.s scrollScreen.s background.s paintColors.s > build/combined.s
@@ -8,3 +9,5 @@ all:
 	cd build ;/usr/local/bin/mac2c64 -r combined.s
 	tools/linker build/combined.rwa build/combined.rwb build/combined.rwc build/combined.rwd build/combined.rwe > build/combined.prg
 	tools/exomizer sfx 0x0801 -q build/combined.prg -o build/toddlerplane64.prg
+setHeader:
+	clang++ -o tools/setHeader setHeader/setHeader.cpp

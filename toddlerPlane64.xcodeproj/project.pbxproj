@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EA76002E1C8FAAC500966595 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA76002D1C8FAAC500966595 /* main.cpp */; };
+		EA76002E1C8FAAC500966595 /* setHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA76002D1C8FAAC500966595 /* setHeader.cpp */; };
 		EA7600331C90AABC00966595 /* paintColors.s in Sources */ = {isa = PBXBuildFile; fileRef = EA7600321C90AABC00966595 /* paintColors.s */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
@@ -34,7 +34,7 @@
 		EA4FD2FA1AD794FD005A11EB /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		EA7600251C8A599900966595 /* genScreenMems.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; name = genScreenMems.php; path = tools/genScreenMems.php; sourceTree = "<group>"; };
 		EA76002A1C8FAAC500966595 /* setHeader */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = setHeader; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA76002D1C8FAAC500966595 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		EA76002D1C8FAAC500966595 /* setHeader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = setHeader.cpp; sourceTree = "<group>"; };
 		EA7600321C90AABC00966595 /* paintColors.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = paintColors.s; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,7 +86,7 @@
 		EA76002C1C8FAAC500966595 /* setHeader */ = {
 			isa = PBXGroup;
 			children = (
-				EA76002D1C8FAAC500966595 /* main.cpp */,
+				EA76002D1C8FAAC500966595 /* setHeader.cpp */,
 			);
 			path = setHeader;
 			sourceTree = "<group>";
@@ -147,7 +147,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA7600331C90AABC00966595 /* paintColors.s in Sources */,
-				EA76002E1C8FAAC500966595 /* main.cpp in Sources */,
+				EA76002E1C8FAAC500966595 /* setHeader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +264,7 @@
 				EA7600301C8FAAC500966595 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
